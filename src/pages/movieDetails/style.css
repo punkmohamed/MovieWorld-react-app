@@ -1,0 +1,56 @@
+
+*{
+    color: white;
+}
+.backdrop {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+    border-radius: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .backdrop img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .poster {
+    margin-bottom: 20px;
+  }
+  
+  .poster img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .collection-info {
+    margin-top: 20px;
+  }
+  
+  .collection-info img {
+    width: 100px;
+    height: auto;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h4 {
+    font-size: 1.5rem;
+    color: #6c757d;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  
+  .btn-primary {
+    margin-top: 20px;
+  }
+  

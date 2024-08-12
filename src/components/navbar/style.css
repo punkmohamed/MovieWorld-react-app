@@ -1,0 +1,14 @@
+.nav-link {
+    transition: background-color 0.2s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #dc3545; 
+    border-radius: 20px;
+    padding: 20px;
+    color: #fff;
+  }
+  i{
+    color: red;
+    transition: all 1s;
+  }
