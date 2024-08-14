@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/react.svg';
 import './style.css'
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import languageContext from '../../context/langContext';
+
 const Navbar = () => {
     const wishlist = useSelector(state => state.WishListReducer)
+    const { lang, setLang } = useContext(languageContext)
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between align-items-center px-5">
@@ -28,7 +31,11 @@ const Navbar = () => {
                                 <i className="fa-regular fa-heart"></i> WishList
                                 {wishlist.length > 0 && <span className='bg-danger text-white rounded-5 p-1 text-center'> {wishlist.length}</span>}
                             </Link>
-
+                        </li>
+                        <li className="nav-item ">
+                            <button className="nav-link text-black d-flex align-items-center" onClick={() => setLang(lang === "en" ? "ar" : "en")}>
+                                <i className="fa-solid fa-language fs-4  pe-1"></i> <span className='text-black'>{lang}</span>
+                            </button>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link text-black" to="/auth">

@@ -1,11 +1,28 @@
+import { GoogleLogin } from "@react-oauth/google";
 import { Formik } from "formik";
 import { useState } from "react";
-
+import { jwtDecode } from "jwt-decode";
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
     }
+    const handleLoginSuccess = (response) => {
+        const idToken = response.credential
+        console.log(response);
+
+        try {
+            const decoded = jwtDecode(idToken);
+            console.log(decoded);
+        } catch (error) {
+            console.error('Failed to decode JWT', error);
+        }
+    };
+
+    const handleLoginError = () => {
+        console.log('Login Failed');
+    };
+
     return (
         <>
             <div>
@@ -90,6 +107,10 @@ const Login = () => {
                             </div>
                         )}
                     </Formik>
+                    <GoogleLogin
+                        onSuccess={handleLoginSuccess}
+                        onError={handleLoginError}
+                    />
                 </div>
             </div>
         </>

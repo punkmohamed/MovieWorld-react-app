@@ -1,51 +1,42 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import './style.css';
-import axios from "axios";
 import MovieCard from './../../components/movieCard/movieCard';
+import { useDispatch, useSelector } from "react-redux";
+import fetchMovies from "../../redux/Actions/apiAction";
+import languageContext from "../../context/langContext";
 
 const Home = () => {
-    const [moviesList, setMoviesList] = useState([]);
-    const [loading, setLoading] = useState(false);
+
     const [search, setSearch] = useState(null);
     const [count, setCount] = useState(1);
-
-    const fetchData = async (api) => {
-        setLoading(true)
-        try {
-            const response = await axios.get(api);
-            const data = response.data.results;
-            setMoviesList(data);
-            console.log(data);
-            setLoading(false)
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const { lang } = useContext(languageContext)
+    const moviesList = useSelector(state => state.apiReducer.list)
+    console.log(moviesList)
+    const dispatch = useDispatch()
+    // dispatch(fetchMovies('', 1, lang))
 
     const handleSearch = (e) => {
         setSearch(e.target.value);
     };
 
     const handleSubmit = () => {
-        let api = `https://api.themoviedb.org/3/search/movie?api_key=b932594aaa08e98c262cc502b4484e3d&query=${search}`;
-        fetchData(api);
+        setCount(1)
+        dispatch(fetchMovies(search))
     };
 
     const handleReturn = () => {
         setSearch('');
         setCount(1);
-        let api = `https://api.themoviedb.org/3/movie/popular?api_key=b932594aaa08e98c262cc502b4484e3d&page=${count}`;
-        fetchData(api);
+        dispatch(fetchMovies('', 1, lang))
     };
 
     useEffect(() => {
-        let url = `https://api.themoviedb.org/3/movie/popular?api_key=b932594aaa08e98c262cc502b4484e3d&page=${count}`;
-        fetchData(url);
-    }, [count]);
+        dispatch(fetchMovies(search, count, lang))
+    }, [dispatch, search, count, lang]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <div className="container mt-5">
