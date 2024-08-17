@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function Register() {
     const [form, setForm] = useState({
@@ -7,19 +8,23 @@ function Register() {
         email: '',
         password: '',
         confirmPassword: ''
-    })
+    });
     const [errors, setErrors] = useState({});
+
+    // Get translations from Redux store
+    const translate = useSelector(state => state.languageSlice.translation);
+
     const handleFormData = (e) => {
         const { name, value } = e.target;
         setForm((prevForm) => ({
             ...prevForm,
             [name]: value
-        }))
+        }));
 
         if (name === "name") {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                name: value.length === 0 && "Name is required"
+                name: value.length === 0 && translate.NameRequired
             }));
         }
 
@@ -27,10 +32,10 @@ function Register() {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 email: value.length === 0
-                    ? "Email is required"
+                    ? translate.EmailRequired
                     : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
                         ? ""
-                        : "Invalid email format"
+                        : translate.InvalidEmailFormat
             }));
         }
 
@@ -38,9 +43,9 @@ function Register() {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 username: value.length === 0
-                    ? "Username is required"
+                    ? translate.UsernameRequired
                     : /\s/.test(value)
-                        ? "Username cannot contain spaces"
+                        ? translate.UsernameCannotContainSpaces
                         : ""
             }));
         }
@@ -49,10 +54,10 @@ function Register() {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 password: value.length === 0
-                    ? "Password is required"
+                    ? translate.PasswordRequired
                     : /^[A-Za-z0-9]{6,}$/.test(value)
                         ? ""
-                        : "invalid password"
+                        : translate.InvalidPassword
             }));
         }
 
@@ -60,31 +65,31 @@ function Register() {
             setErrors((prevErrors) => ({
                 ...prevErrors,
                 confirmPassword: value.length === 0
-                    ? "Confirm password is required"
+                    ? translate.ConfirmPasswordRequired
                     : value === form.password
                         ? ""
-                        : "Passwords do not match"
-            }))
+                        : translate.PasswordsDoNotMatch
+            }));
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-    }
+        // Handle form submission
+    };
 
     return (
         <div className="container mt-5" style={{ width: '600px' }}>
-            <h1 className="text-center">Register</h1>
+            <h1 className="text-center">{translate.Register}</h1>
             <div className="border border-2 border-info rounded-5 shadow p-5">
-                <form className="m-5 needs-validation" onSubmit={handleSubmit} >
+                <form className="m-5 needs-validation" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="font-weight-bold">Name</label>
+                        <label className="font-weight-bold">{translate.Name}</label>
                         <input
                             onChange={handleFormData}
                             type="text"
-                            className={`form-control form-control-lg  ${errors.name ? " is-invalid" : "is-valid"}`}
-                            placeholder="Enter your name"
+                            className={`form-control form-control-lg ${errors.name ? "is-invalid" : "is-valid"}`}
+                            placeholder={translate.EnterYourName}
                             name="name"
                             value={form.name}
                             required
@@ -92,12 +97,12 @@ function Register() {
                         <div className="invalid-feedback">{errors.name}</div>
                     </div>
                     <div className="form-group">
-                        <label className="font-weight-bold">Email address</label>
+                        <label className="font-weight-bold">{translate.EmailAddress}</label>
                         <input
                             onChange={handleFormData}
                             type="email"
                             className={`form-control form-control-lg ${errors.email ? "is-invalid" : "is-valid"}`}
-                            placeholder="Enter your email"
+                            placeholder={translate.EnterYourEmail}
                             name="email"
                             value={form.email}
                             required
@@ -105,12 +110,12 @@ function Register() {
                         <div className="invalid-feedback">{errors.email}</div>
                     </div>
                     <div className="form-group">
-                        <label className="font-weight-bold">Username</label>
+                        <label className="font-weight-bold">{translate.Username}</label>
                         <input
                             onChange={handleFormData}
                             type="text"
                             className={`form-control form-control-lg ${errors.username ? "is-invalid" : "is-valid"}`}
-                            placeholder="Enter your username"
+                            placeholder={translate.EnterYourUsername}
                             name="username"
                             value={form.username}
                             required
@@ -118,12 +123,12 @@ function Register() {
                         <div className="invalid-feedback">{errors.username}</div>
                     </div>
                     <div className="form-group">
-                        <label className="font-weight-bold">Password</label>
+                        <label className="font-weight-bold">{translate.Password}</label>
                         <input
                             onChange={handleFormData}
                             type="password"
                             className={`form-control form-control-lg ${errors.password ? "is-invalid" : "is-valid"}`}
-                            placeholder="Enter your password"
+                            placeholder={translate.EnterYourPassword}
                             name="password"
                             value={form.password}
                             required
@@ -131,22 +136,23 @@ function Register() {
                         <div className="invalid-feedback">{errors.password}</div>
                     </div>
                     <div className="form-group">
-                        <label className="font-weight-bold">Confirm Password</label>
+                        <label className="font-weight-bold">{translate.ConfirmPassword}</label>
                         <input
                             onChange={handleFormData}
                             type="password"
                             className={`form-control form-control-lg ${errors.confirmPassword ? "is-invalid" : "is-valid"}`}
-                            placeholder="Confirm your password"
+                            placeholder={translate.ConfirmYourPassword}
                             name="confirmPassword"
                             value={form.confirmPassword}
                             required
                         />
                         <div className="invalid-feedback">{errors.confirmPassword}</div>
                     </div>
-                    <button type="submit" className="btn btn-danger btn-block btn-lg mt-2">Register</button>
+                    <button type="submit" className="btn btn-danger btn-block btn-lg mt-2">{translate.Register}</button>
                 </form>
             </div>
         </div>
     )
 }
-export default Register
+
+export default Register;

@@ -1,6 +1,7 @@
 
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import UserAuth from './pages/userAuthentications/userAuth';
@@ -12,8 +13,9 @@ import languageContext from './context/langContext';
 import { useState } from 'react';
 function App() {
     const [lang, setLang] = useState('en')
+
     return (
-        <div>
+        <div dir={lang === 'ar' ? 'rtl' : 'ltr'}>
             <Router>
                 <languageContext.Provider value={{ lang, setLang }}>
                     <Navbar />
@@ -25,7 +27,7 @@ function App() {
                     </Switch>
                 </languageContext.Provider>
             </Router>
-        </div>
+        </div >
     );
 }
 
